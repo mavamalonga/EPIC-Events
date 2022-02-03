@@ -136,3 +136,4 @@ STATIC_URL = '/static/'
 # For model User
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 AUTH_USER_MODEL = 'app.User'
+LOGIN_REDIRECT_URL = 'index'
