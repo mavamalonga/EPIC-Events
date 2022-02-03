@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate, logout
+from authentication import forms
+from django.conf import settings
 
-# Create your views here.
+
+def index(request):
+	return render(request, 'app/index.html', {'message': 'Hello word!'})

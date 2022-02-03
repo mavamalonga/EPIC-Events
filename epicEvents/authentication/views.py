@@ -15,7 +15,7 @@ def signUp(request):
 	return render(request, 'authentication/SignUp.html', {'form': form, 'page_name': None })
 
 
-def SignIn(request):
+def signIn(request):
 	form = forms.LoginForm()
 	message = ''
 	if request.method == 'POST':
