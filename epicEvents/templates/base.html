@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>Litreview</title>
+	<style type="text/css">
+		.page-name {
+			margin-left: 50px;
+		}
+		.header {
+			width: 1250px;
+			height: 50px;
+			position: relative;
+			border-top: solid;
+			border-bottom: solid;
+		}
+		.header h1 {
+			position: absolute;
+			top: -10px;
+		}
+		.header nav {
+			position: absolute;
+			display: inline-flex;
+			top: 30%;
+			left: 70%;
+		}
+
+		.header nav p {
+			margin: 5px;
+		}
+
+		.header nav p a {
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+	{% if user.is_authenticated %}
+		{% if page_name != None %}
+		<p class="page-name">{{ page_name }}</p>
+		<div class="header">
+			<h1>LITReview</h1>
+			<nav>
+				<p><a href="{% url 'flux' %}">Flux</a></p>
+				<p><a href="{% url 'posts' %}">Posts</a></p>
+				<p><a href="{% url 'follows' %}">Abonnements</a></p>
+				<p><a href="{% url 'logout' %}">Se déconnecter</a></p>
+			</nav>
+		</div>
+		{% endif %}
+	{% endif %}
+	{% block content %}{% endblock %}
+</body>
+</html>
