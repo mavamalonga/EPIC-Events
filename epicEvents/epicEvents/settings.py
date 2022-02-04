@@ -25,8 +25,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app',
-    'authentication',
+    'api',
 ]
 
 MIDDLEWARE = [
@@ -125,5 +124,4 @@ STATIC_URL = '/static/'
 # For auto primary key
 # For model User
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
-AUTH_USER_MODEL = 'app.User'
-LOGIN_REDIRECT_URL = 'index'
+AUTH_USER_MODEL = 'api.User'

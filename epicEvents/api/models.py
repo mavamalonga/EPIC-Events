@@ -11,14 +11,15 @@ class User(AbstractUser):
 
 class Client(models.Model):
 
-	first_name = models.CharField(max_length=25)
-	last_name = models.CharField(max_length=25)
-	email = models.CharField(max_length=200)
-	phone = models.CharField(max_length=20)
-	mobile = models.CharField(max_length=20)
-	comapny_name = models.CharField(max_length=250)
+	first_name = models.CharField(max_length=25, null=False)
+	last_name = models.CharField(max_length=25, null=False)
+	email = models.CharField(max_length=200, null=False)
+	phone = models.CharField(max_length=20, null=False)
+	mobile = models.CharField(max_length=20, null=False)
+	comapny_name = models.CharField(max_length=250, null=False)
 	date_created = models.DateTimeField(auto_now_add=True)
 	date_updated = models.DateTimeField()
+	sales_contact_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 	def __str__(self):
 		return self.first_name
@@ -31,7 +32,7 @@ class Event(models.Model):
 	date = models.DateTimeField()
 	address = models.CharField(max_length=200)
 	client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
-	assignee_id = models.ForeignKey(User, on_delete=models.CASCADE)
+	support_contact_id = models.ForeignKey(User, on_delete=models.CASCADE)
 	date_created = models.DateTimeField(auto_now_add=True)
 	date_updated = models.DateTimeField()
 
@@ -43,6 +44,8 @@ class Contract(models.Model):
 	notes = models.TextField(max_length=8192)
 	event_id = models.ForeignKey(Event, on_delete=models.CASCADE)
 	client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
-	assignee_id = models.ForeignKey(User, on_delete=models.CASCADE)
-	date = models.DateTimeField()
-
+	sales_contact_id = models.ForeignKey(User, on_delete=models.CASCADE)
+	date_created = models.DateTimeField(auto_now_add=True)
+	date_updated = models.DateTimeField()
+	amount = models.FloatField()
+	payment_status = models.BooleanField()
