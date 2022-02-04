@@ -30,3 +30,18 @@ class SignUpSerializer(ModelSerializer):
 		user.set_password(validated_data['password'])
 		user.save()
 		return user
+
+
+class ClientSerializer(ModelSerializer):
+	class Meta:
+		model = models.Client
+		fields = ['id', 'first_name', 'last_name', 'email', 'phone', 'mobile',
+			'company_name', 'date_created', 'date_updated', 'sales_contact_id']
+
+
+class ClientSerializerPost(ModelSerializer):
+	class Meta:
+		model = models.Client
+		fields = ['first_name', 'last_name', 'email', 'phone', 'mobile',
+			'company_name','sales_contact_id']
+

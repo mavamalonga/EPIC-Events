@@ -16,9 +16,9 @@ class Client(models.Model):
 	email = models.CharField(max_length=200, null=False)
 	phone = models.CharField(max_length=20, null=False)
 	mobile = models.CharField(max_length=20, null=False)
-	comapny_name = models.CharField(max_length=250, null=False)
+	company_name = models.CharField(max_length=250, null=False)
 	date_created = models.DateTimeField(auto_now_add=True)
-	date_updated = models.DateTimeField()
+	date_updated = models.DateTimeField(null=True)
 	sales_contact_id = models.ForeignKey(User, on_delete=models.CASCADE)
 
 	def __str__(self):
