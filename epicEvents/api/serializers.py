@@ -58,3 +58,17 @@ class EventSerializerPost(ModelSerializer):
 		model = models.Event
 		fields = ['name', 'description', 'date', 'address', 'client_id', 'support_contact_id']
 
+
+class ContractSerializer(ModelSerializer):
+	class Meta:
+		model = models.Contract
+		fields = ['id', 'notes', 'event_id', 'client_id', 'sales_contact_id', 'date_created',
+			'date_updated', 'amount', 'payment_status']
+
+
+class ContractSerializerPost(ModelSerializer):
+	class Meta:
+		model = models.Contract
+		fields = ['notes', 'event_id', 'client_id', 'sales_contact_id', 'amount', 'payment_status']
+
+

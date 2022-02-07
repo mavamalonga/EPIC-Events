@@ -97,5 +97,25 @@ class EventViewDetail(APIView):
 		return Response(status=status.HTTP_200_OK)
 
 
+class ContractView(APIView):
+
+	def get(self, request):
+		contract = models.Contract.objects.all()
+		serializer = serializers.ContractSerializer(contract, many=True)
+		return Response(serializer.data, status=status.HTTP_200_OK)
+
+	def post(self, request):
+		serializer = serializers.ContractSerializerPost(data=request.data)
+		if serializer.is_valid():
+			event = get_object_or_404(models.Event, pk=int(request.data['event_id']))
+			client = get_object_or_404(models.Client, pk=int(request.data['client_id']))
+			sales_contact = get_object_or_404(models.User, pk=int(request.data['sales_contact_id']))
+			serializer.save(event_id=event, client_id=client, sales_contact_id=sales_contact)
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 
