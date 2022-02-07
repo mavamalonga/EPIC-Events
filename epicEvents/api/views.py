@@ -74,4 +74,28 @@ class EventView(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class EventViewDetail(APIView):
+
+	def get(self, request, event_id):
+		event = get_object_or_404(models.Event, pk=event_id)
+		serializer = serializers.EventSerializer(event)
+		return Response(serializer.data, status=status.HTTP_200_OK)
+
+	def put(self, request, event_id):
+		event = get_object_or_404(models.Event, pk=event_id)
+		serializer = serializers.EventSerializerPost(event, data=request.data)
+		if serializer.is_valid():
+			client = get_object_or_404(models.Client, pk=int(request.data['client_id']))
+			contact = get_object_or_404(models.User, pk=int(request.data['support_contact_id']))
+			serializer.save(client_id=client, support_contact_id=contact, date_updated=datetime.now().isoformat())
+			return Response(serializer.data, status=status.HTTP_200_OK)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+	def delete(self, request, event_id):
+		event = get_object_or_404(models.Event, pk=event_id)
+		event.delete()
+		return Response(status=status.HTTP_200_OK)
+
+
+
 
