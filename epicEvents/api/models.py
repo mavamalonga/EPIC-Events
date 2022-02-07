@@ -34,7 +34,7 @@ class Event(models.Model):
 	client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
 	support_contact_id = models.ForeignKey(User, on_delete=models.CASCADE)
 	date_created = models.DateTimeField(auto_now_add=True)
-	date_updated = models.DateTimeField()
+	date_updated = models.DateTimeField(null=True)
 
 	def __str__(self):
 		return self.name
@@ -46,6 +46,6 @@ class Contract(models.Model):
 	client_id = models.ForeignKey(Client, on_delete=models.CASCADE)
 	sales_contact_id = models.ForeignKey(User, on_delete=models.CASCADE)
 	date_created = models.DateTimeField(auto_now_add=True)
-	date_updated = models.DateTimeField()
+	date_updated = models.DateTimeField(null=True)
 	amount = models.FloatField()
 	payment_status = models.BooleanField()

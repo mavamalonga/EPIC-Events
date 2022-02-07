@@ -13,5 +13,6 @@ urlpatterns = [
     path('api/login/', TokenObtainPairView.as_view(), name='token-obtain-pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token-refresh'),
     path('api/clients/', views.ClientView.as_view(), name='clients'),
-    path('api/client/<int:client_id>/', views.ClientViewDetail.as_view(), name='client')
+    path('api/client/<int:client_id>/', views.ClientViewDetail.as_view(), name='client'),
+    path('api/events/', views.EventView.as_view(), name='events')
 ]

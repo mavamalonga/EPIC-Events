@@ -45,3 +45,16 @@ class ClientSerializerPost(ModelSerializer):
 		fields = ['first_name', 'last_name', 'email', 'phone', 'mobile',
 			'company_name','sales_contact_id']
 
+
+class EventSerializer(ModelSerializer):
+	class Meta:
+		model = models.Event
+		fields = ['id', 'name', 'description', 'address', 'client_id', 'support_contact_id',
+			'date_created', 'date_updated']
+
+
+class EventSerializerPost(ModelSerializer):
+	class Meta:
+		model = models.Event
+		fields = ['name', 'description', 'date', 'address', 'client_id', 'support_contact_id']
+

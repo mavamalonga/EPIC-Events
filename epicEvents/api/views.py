@@ -57,4 +57,21 @@ class ClientViewDetail(APIView):
 		return Response(status=status.HTTP_200_OK)
 
 
+class EventView(APIView):
+
+	def get(self, request):
+		events = models.Event.objects.all()
+		serializer = serializers.EventSerializer(events, many=True)
+		return Response(serializer.data, status=status.HTTP_200_OK)
+
+	def post(self, request):
+		serializer = serializers.EventSerializerPost(data=request.data)
+		if serializer.is_valid():
+			client = get_object_or_404(models.Client, pk=int(request.data['client_id']))
+			contact = get_object_or_404(models.User, pk=int(request.data['support_contact_id']))
+			serializer.save(client_id=client, support_contact_id=contact)
+			return Response(serializer.data, status=status.HTTP_201_CREATED)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 
