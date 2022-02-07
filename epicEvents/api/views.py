@@ -115,6 +115,35 @@ class ContractView(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ContractViewDetail(APIView):
+
+	def get(self, request, contract_id):
+		contract = get_object_or_404(models.Contract, pk=contract_id)
+		serializer = serializers.ContractSerializer(contract)
+		return Response(serializer.data, status=status.HTTP_200_OK)
+
+	def put(self, request, contract_id):
+		contract = get_object_or_404(models.Contract, pk=contract_id)
+		serializer = serializers.ContractSerializerPost(contract, data=request.data)
+		if serializer.is_valid():
+			event = get_object_or_404(models.Event, pk=int(request.data['event_id']))
+			client = get_object_or_404(models.Client, pk=int(request.data['client_id']))
+			sales_contact = get_object_or_404(models.User, pk=int(request.data['sales_contact_id']))
+			serializer.save(event_id=event, client_id=client, sales_contact_id=sales_contact)
+			return Response(serializer.data, status=status.HTTP_200_OK)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+	def delete(self, request, client_id):
+		contract = get_object_or_404(models.Contract, pk=contract_id)
+		contract.delete()
+		return Response(status=status.HTTP_200_OK)
+
+
+
+
+
+
+
 
 
 

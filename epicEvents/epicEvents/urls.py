@@ -16,5 +16,6 @@ urlpatterns = [
     path('api/client/<int:client_id>/', views.ClientViewDetail.as_view(), name='client'),
     path('api/events/', views.EventView.as_view(), name='events'),
     path('api/event/<int:event_id>/', views.EventViewDetail.as_view(), name='event'),
-    path('api/contracts/', views.ContractView.as_view(), name='contracts')
+    path('api/contracts/', views.ContractView.as_view(), name='contracts'),
+    path('api/contract/<int:contract_id>/', views.ContractViewDetail.as_view(), name='contract')
 ]
