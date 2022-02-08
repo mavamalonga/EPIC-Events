@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'client/client.css' %}">
+	<h2>Clients</h2>
+	<div class="container">
+		{% for client in clients %}
+			{{ client.first_name }} {{ client.last_name }}<br>
+			{{ client.company_name }}<br>
+			{{ client.mobile }}<br>
+			{{ client.email }}<br>
+			<br><br>
+		{% endfor %}
+	</div>
+{% endblock content %}

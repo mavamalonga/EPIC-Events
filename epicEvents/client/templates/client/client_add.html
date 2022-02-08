@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'client/clients.css' %}">
+	<div class="container">
+		<h2>Add New client</h2>
+		<form method="post">
+			{{ client_form.as_p }}
+			{% csrf_token %}
+			<input type="submit" value="Valider">
+		</form>
+	</div>
+{% endblock %}
