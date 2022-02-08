@@ -20,5 +20,7 @@ urlpatterns = [
     path('api/event/<int:event_id>/', api.views.EventViewDetail.as_view(), name='api-event-details'),
     path('api/contract/', api.views.ContractView.as_view(), name='api-contract'),
     path('api/contract/<int:contract_id>/', api.views.ContractViewDetail.as_view(), name='api-contract-details'),
-    path('client/', client.views.client, name='client')
+    path('client/', client.views.client, name='client'),
+    path('client/<int:client_id>/', client.views.client_details, name='client-details'),
+    path('client/add/', client.views.client_add, name='client-add')
 ]
