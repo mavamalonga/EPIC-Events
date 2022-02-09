@@ -23,5 +23,6 @@ urlpatterns = [
     path('client/', client.views.client, name='client'),
     path('client/<int:client_id>/', client.views.client_details, name='client-details'),
     path('client/add/', client.views.client_add, name='client-add'),
-    path('client/<int:client_id>/edit/', client.views.client_edit, name='client-edit')
+    path('client/<int:client_id>/edit/', client.views.client_edit, name='client-edit'),
+    path('client/<int:client_id>/delete/', client.views.client_delete, name='client-delete')
 ]

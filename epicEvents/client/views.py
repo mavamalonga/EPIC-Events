@@ -56,17 +56,21 @@ def client_edit(request, client_id):
 			context = {'client_form': client_form}
 			return render(request, 'client/client_edit.html', context)
 		if request.method == 'POST':
-			client_form = forms.ClientForm()
-	if request.method == 'POST':
-		data = {
-			'first_name': request.POST['first_name'],
-			'last_name' : request.POST['last_name'],
-			'email': request.POST['last_name'],
-			'phone': request.POST['phone'],
-			'mobile': request.POST['mobile'],
-			'company_name': request.POST['company_name'],
-			'sales_contact_id': request.POST['sales_contact_id']
-		}
-		r = requests.put('http://127.0.0.1:8000/api/client/' + str(client_id)+'/', data=data)
-		return redirect('client')
+			data = {
+				'first_name': request.POST['first_name'],
+				'last_name' : request.POST['last_name'],
+				'email': request.POST['last_name'],
+				'phone': request.POST['phone'],
+				'mobile': request.POST['mobile'],
+				'company_name': request.POST['company_name'],
+				'sales_contact_id': request.POST['sales_contact_id']
+			}
+			r = requests.put('http://127.0.0.1:8000/api/client/' + str(client_id)+'/', data=data)
+			return redirect('client')
+
+def client_delete(request, client_id):
+	r = requests.delete('http://127.0.0.1:8000/api/client/' + str(client_id))
+	print(r.status_code)
+	return redirect('client')
+
 
