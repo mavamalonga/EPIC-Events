@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'salesTeam/clients.css' %}">
+	<h2>Client details</h2>
+	<div class="container">
+		{{ client.id }}<br>
+		{{ client.first_name }} {{ client.last_name }}<br>
+		{{ client.company_name }}<br>
+		{{ client.mobile }}<br>
+		{{ client.phone }}<br>
+		{{ client.email }}<br>
+		{{ client.date_created }}<br>
+		{{ client.date_created }}<br>
+		{{ client.sales_contact_id.first_name }}<br>
+		<a href="{% url 'client-edit' client.id %}"><button>Update</button></a>
+		<a href="{% url 'client-delete' client.id %}"><button>Delete</button></a>
+		<br><br>
+	</div>
+{% endblock content %}

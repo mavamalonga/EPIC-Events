@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+	<link rel="stylesheet" type="text/css" href="{% static 'client/client.css' %}">
+	<h2>Clients</h2>
+	<div class="container">
+		<a href="{% url 'client-add' %}"><button>Add new client</button></a><br><br>
+		{% for client in clients %}
+			{{ client.first_name }} {{ client.last_name }}<br>
+			{{ client.company_name }}<br>
+			{{ client.mobile }}<br>
+			{{ client.email }}<br>
+			<a href="{% url 'client-details' client.id %}">More</a>
+			<br><br>
+		{% endfor %}
+	</div>
+{% endblock content %}
