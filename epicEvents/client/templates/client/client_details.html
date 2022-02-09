@@ -13,7 +13,7 @@
 		{{ client.date_created }}<br>
 		{{ client.date_created }}<br>
 		{{ client.sales_contact_id.first_name }}<br>
-		<a href="{% url 'client-details' client.id %}"><button>Update</button></a>
+		<a href="{% url 'client-edit' client.id %}"><button>Update</button></a>
 		<a href="{% url 'client-details' client.id %}"><button>Delete</button></a>
 		<br><br>
 	</div>
