@@ -1,11 +1,11 @@
 from rest_framework.serializers import ModelSerializer, SerializerMethodField, ValidationError
-from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-from . import models
+from api import models
 
 
-class SignUpSerializer(ModelSerializer):
+class UserSerializer(ModelSerializer):
 	email = serializers.EmailField(
 		required=True, 
 		validators=[UniqueValidator(queryset=models.User.objects.all())]
@@ -39,13 +39,6 @@ class ClientSerializer(ModelSerializer):
 			'company_name', 'date_created', 'date_updated', 'sales_contact_id']
 
 
-class ClientSerializerPost(ModelSerializer):
-	class Meta:
-		model = models.Client
-		fields = ['first_name', 'last_name', 'email', 'phone', 'mobile',
-			'company_name','sales_contact_id']
-
-
 class EventSerializer(ModelSerializer):
 	class Meta:
 		model = models.Event
@@ -53,22 +46,8 @@ class EventSerializer(ModelSerializer):
 			'date_created', 'date_updated']
 
 
-class EventSerializerPost(ModelSerializer):
-	class Meta:
-		model = models.Event
-		fields = ['name', 'description', 'date', 'address', 'client_id', 'support_contact_id']
-
-
 class ContractSerializer(ModelSerializer):
 	class Meta:
 		model = models.Contract
-		fields = ['id', 'notes', 'event_id', 'client_id', 'sales_contact_id', 'date_created',
+		fields =  ['id', 'notes', 'event_id', 'client_id', 'sales_contact_id', 'date_created',
 			'date_updated', 'amount', 'payment_status']
-
-
-class ContractSerializerPost(ModelSerializer):
-	class Meta:
-		model = models.Contract
-		fields = ['notes', 'event_id', 'client_id', 'sales_contact_id', 'amount', 'payment_status']
-
-
