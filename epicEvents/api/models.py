@@ -49,3 +49,6 @@ class Contract(models.Model):
 	date_updated = models.DateTimeField(null=True)
 	amount = models.FloatField()
 	payment_status = models.BooleanField()
+
+	def __str__(self):
+		return self.payment_status
