@@ -4,7 +4,6 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 import api.views
-import client.views
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
