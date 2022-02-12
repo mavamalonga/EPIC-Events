@@ -70,7 +70,7 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql',
 
-        'NAME': 'EpicEvents',
+        'NAME': 'epic-events',
 
         'USER': 'postgres',
 

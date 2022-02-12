@@ -51,4 +51,4 @@ class Contract(models.Model):
 	payment_status = models.BooleanField(default=False, verbose_name='payment_status')
 
 	def __str__(self):
-		return self.date_created  
+		return str(self.event_id)

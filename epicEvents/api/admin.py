@@ -8,13 +8,13 @@ class UserAdmin(UserAdmin):
                 'is_active')
 
 class ClientAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'email', 'company_name', 'sales_contact_id')
+    list_display = ('id', 'last_name', 'email', 'company_name', 'sales_contact_id')
 
 class EventAdmin(admin.ModelAdmin):
-	list_display = ('name', 'client_id', 'date', 'support_contact_id')
+	list_display = ('id', 'name', 'client_id', 'date', 'support_contact_id')
 
 class ContractAdmin(admin.ModelAdmin):
-	list_display = ('event_id', 'client_id', 'sales_contact_id', 'payment_status')
+	list_display = ('id', 'event_id', 'client_id', 'sales_contact_id', 'payment_status')
 
 
 admin.site.register(User, UserAdmin)
