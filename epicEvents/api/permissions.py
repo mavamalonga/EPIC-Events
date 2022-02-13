@@ -1,24 +1,31 @@
-from rest_framework import permissions
+from rest_framework.permissions import BasePermission, SAFE_METHODS
 
 
-class StaffAccessPermission(permissions.BasePermission):
-    message = 'Only staff acess permission'
+class StaffAccessPermission(BasePermission):
+    message = 'Permission only to the staff member.'
 
     def has_permission(self, request, view):
         return request.user.is_staff == True
 
 
-class GestionTeamAccessPermission(permissions.BasePermission):
-     message = 'Only member gestion-team acess permission'
+class UserAccessPermission(BasePermission):
+     message = 'Permission only to the team-gestion'
 
      def has_permission(self, request, view):
         return request.user.groups.filter(name='team-gestion').exists() == True or \
             request.user.is_superuser == True
 
 
-class GestionTeamAccessPermission(permissions.BasePermission):
-     message = 'Only member gestion-team acess permission'
+class ClientAccessPermission(BasePermission):
+     message = 'Request not allowed.'
 
      def has_permission(self, request, view):
-        return request.user.groups.filter(name='team-gestion').exists() == True or \
-            request.user.is_superuser == True
+        if request.method in SAFE_METHODS:
+            return request.user.is_staff
+        else:
+            return request.user.groups.filter(name='team-vente').exists() == True or \
+                request.user.groups.filter(name='team-gestion').exists() == True 
+
+
+class EventAccessPermission(BasePermission):
+    pass

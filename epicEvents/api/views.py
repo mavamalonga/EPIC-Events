@@ -3,13 +3,15 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 
 from datetime import datetime
-from api.permissions import StaffAccessPermission, GestionTeamAccessPermission
+from api.permissions import StaffAccessPermission, UserAccessPermission, ClientAccessPermission
 from . import models, serializers
+
+import psycopg2
 
 
 class UserViewset(ModelViewSet, StaffAccessPermission):
 
-	permission_classes = [IsAuthenticated, StaffAccessPermission, GestionTeamAccessPermission]
+	permission_classes = [IsAuthenticated, StaffAccessPermission, UserAccessPermission]
 	serializer_class = serializers.UserSerializer
 
 	def get_queryset(self):
@@ -18,10 +20,10 @@ class UserViewset(ModelViewSet, StaffAccessPermission):
 
 class ClientViewset(ModelViewSet, StaffAccessPermission):
 
-	permission_classes = [IsAuthenticated, StaffAccessPermission]
+	permission_classes = [IsAuthenticated, StaffAccessPermission, ClientAccessPermission]
 	serializer_class = serializers.ClientSerializer
 
-	def get_queryset(sel):
+	def get_queryset(self):
 		return models.Client.objects.all()
 
 
