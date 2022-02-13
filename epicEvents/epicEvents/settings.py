@@ -124,8 +124,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# For auto primary key
-# For model User
+
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 AUTH_USER_MODEL = 'api.User'
 

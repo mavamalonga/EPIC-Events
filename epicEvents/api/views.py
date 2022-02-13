@@ -3,39 +3,40 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 
 from datetime import datetime
+from api.permissions import StaffAccessPermission, GestionTeamAccessPermission
 from . import models, serializers
 
 
-class UserViewset(ModelViewSet):
+class UserViewset(ModelViewSet, StaffAccessPermission):
 
-	permission_classes = [IsAuthenticated]
+	permission_classes = [IsAuthenticated, StaffAccessPermission, GestionTeamAccessPermission]
 	serializer_class = serializers.UserSerializer
 
 	def get_queryset(self):
 		return models.User.objects.all()
 
 
-class ClientViewset(ModelViewSet):
+class ClientViewset(ModelViewSet, StaffAccessPermission):
 
-	permission_classes = [IsAuthenticated]
+	permission_classes = [IsAuthenticated, StaffAccessPermission]
 	serializer_class = serializers.ClientSerializer
 
 	def get_queryset(sel):
 		return models.Client.objects.all()
 
 
-class EventViewset(ModelViewSet):
+class EventViewset(ModelViewSet, StaffAccessPermission):
 
-	permission_classes = [IsAuthenticated]
+	permission_classes = [IsAuthenticated, StaffAccessPermission]
 	serializer_class = serializers.EventSerializer
 
 	def get_queryset(self):
 		return models.Event.objects.all()
 
 
-class ContractViewset(ModelViewSet):
+class ContractViewset(ModelViewSet, StaffAccessPermission):
 
-	permission_classes = [IsAuthenticated]
+	permission_classes = [IsAuthenticated, StaffAccessPermission]
 	serializer_class = serializers.ContractSerializer
 
 	def get_queryset(self):

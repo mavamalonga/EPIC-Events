@@ -1,11 +1,24 @@
 from rest_framework import permissions
-from rest_framework.permissions import BasePermission, IsAuthenticated, SAFE_METHODS
 
 
-class IsContrubutorOrIsOwner(permissions.BasePermission):
+class StaffAccessPermission(permissions.BasePermission):
+    message = 'Only staff acess permission'
 
-    def has_object_permission(self, request, view, obj):
+    def has_permission(self, request, view):
+        return request.user.is_staff == True
 
-        if request.method in ['GET', 'POST']:
-            return True
-        return request.user.id == obj.author.
+
+class GestionTeamAccessPermission(permissions.BasePermission):
+     message = 'Only member gestion-team acess permission'
+
+     def has_permission(self, request, view):
+        return request.user.groups.filter(name='team-gestion').exists() == True or \
+            request.user.is_superuser == True
+
+
+class GestionTeamAccessPermission(permissions.BasePermission):
+     message = 'Only member gestion-team acess permission'
+
+     def has_permission(self, request, view):
+        return request.user.groups.filter(name='team-gestion').exists() == True or \
+            request.user.is_superuser == True
