@@ -58,5 +58,10 @@ class ContractViewset(ModelViewSet, StaffAccessPermission,
 	serializer_class = serializers.ContractSerializer
 
 	def get_queryset(self):
+		my_events = []
+		if self.request.user.groups.filter(name='team-support').exists() == True:
+			for event in models.Event.objects.filter(support_contact_id=self.request.user.id):
+				my_events.append(event.id)
+			return models.Contract.objects.filter(event_id__in=my_events)
 		return models.Contract.objects.all()
 
