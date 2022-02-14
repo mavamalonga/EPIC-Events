@@ -48,7 +48,7 @@ class Contract(models.Model):
 	date_created = models.DateTimeField(auto_now_add=True)
 	date_updated = models.DateTimeField(null=True)
 	amount = models.FloatField()
-	payment_status = models.BooleanField()
+	payment_status = models.BooleanField(default=False, verbose_name='payment_status')
 
 	def __str__(self):
-		return self.payment_status
+		return str(self.event_id)

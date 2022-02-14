@@ -35,19 +35,19 @@ class UserSerializer(ModelSerializer):
 class ClientSerializer(ModelSerializer):
 	class Meta:
 		model = models.Client
-		fields = ['id', 'first_name', 'last_name', 'email', 'phone', 'mobile',
-			'company_name', 'date_created', 'date_updated', 'sales_contact_id']
+		fields = ('id', 'first_name', 'last_name', 'email', 'phone', 'mobile',
+			'company_name', 'date_created', 'date_updated', 'sales_contact_id')
 
 
 class EventSerializer(ModelSerializer):
 	class Meta:
 		model = models.Event
-		fields = ['id', 'name', 'description', 'address', 'client_id', 'support_contact_id',
-			'date_created', 'date_updated']
+		fields = ('id', 'name', 'description', 'date', 'address', 'client_id', 'support_contact_id',
+			'date_created', 'date_updated')
 
 
 class ContractSerializer(ModelSerializer):
 	class Meta:
 		model = models.Contract
-		fields =  ['id', 'notes', 'event_id', 'client_id', 'sales_contact_id', 'date_created',
-			'date_updated', 'amount', 'payment_status']
+		fields =  ('id', 'notes', 'event_id', 'client_id', 'sales_contact_id', 'date_updated', 
+			'amount', 'payment_status')
