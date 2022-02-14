@@ -3,21 +3,24 @@
 <head>
 </head>
 <body>
-	<h1>SoftDesk-API</h1>
+	<h1>EPIC EVENT</h1>
 	<p>
-		SoftDesk, une société d'édition de logiciels de développement et de collaboration, a décidé de publier une application permettant de remonter et suivre des problèmes techniques (issue tracking system). Cette solution s’adresse à des entreprises clientes, en B2B
+		Epic Events est une entreprise de conseil et de gestion dans l'événemenentiel qui 
+		répond aux besoins des start-up voulant des <<fêtes épiques>>.
+		Retrouvez dans ce repository le logiciel de gestion relation client (CRM) de l'entreprise, 
+		qui effectue le suivide tous les clients et événemenets.
 	</p>
 	<h2>Installtion</h2>
 	<p>
-		1.Clonez le repository en utilisant <span style="background:grey;">git clone</span><br>
-		2.Se déplacer dans le répertoire racine SoftDesk en utilisant la commande <span style="background:grey">cd softDesk</span><br>
-		3.Créer un environnement virtuel pour le projet avec la commande <span style="background:grey">python -m venv env</span><br>
-		4.Activez l'environnement virtuel avec la commande <span style="background:grey">env\Scripts\activate.bat</span><br>
-		5.Installez les dépendances du project avec la commande <span style="background:grey">pip install -r requirements.txt</span><br>
+		<ul>
+			<li>Clonez le repository <code>git clone</code></li>
+			<li>Se déplacer dans le répertoire racine epic-events <code>cd epic-events</code></li>
+			<li>Créer un environnement virtuel <code>python -m venv env</code></li>
+			<li>Activez l'environnement virtuel <code>env\Scripts\activate.bat</code></li>
+			<li>Installez les dépendances du project <code>pip install -r requirements.txt</code></li>
+		</ul>
 	</p>
-	<h3>Documentation et détails d'utilisation des endpoints de l'API</h3>
-	<p>
-		Une fois le serveur lancé, lisez le document  suivant avant de faire vos premières requetes à l'API.<br>
+	<h3>Documentation API</h3>
 	</p>
 	<table>
 		<tr>
@@ -26,99 +29,109 @@
 			<th>URI</th>
 		</tr>
 		<tr>
-			<td>Inscription de l'utilisateur</td>
-			<td>POST</td>
-			<td>/sign-up/</td>
-		</tr>
-		<tr>
 			<td>Connexion de l'utilisateur</td>
 			<td>POST</td>
 			<td>/login/</td>
 		</tr>
 		<tr>
-			<td>Récupérer la liste de tous les projets (projects) rattachés à l'utilisateur (user) connecté</td>
+			<td>Récupérer la liste de tous les clients</td>
 			<td>GET</td>
-			<td>/projects/</td>
+			<td>/client/</td>
 		</tr>
 		<tr>
-			<td>Créer un projet</td>
+			<td>Ajouter un client</td>
 			<td>POST</td>
-			<td>/projects/</td>
+			<td>/client/</td>
 		</tr>
 		<tr>
-			<td>Récupérer les détails d'un projet (project) via son id</td>
+			<td>Récupérer plus d'informations sur un  client</td>
 			<td>GET</td>
-			<td>/projects/{id}/</td>
+			<td>/client/{id}/</td>
 		</tr>
 		<tr>
-			<td>Mettre à jour un projet</td>
+			<td>Mettre à jour les informations d'un client</td>
 			<td>PUT</td>
-			<td>/projects/{id}/</td>
+			<td>/client/{id}/</td>
 		</tr>
 		<tr>
-			<td>Supprimer un projet et ses problèmes</td>
+			<td>Supprimer un client et ses événements</td>
 			<td>DELETE</td>
-			<td>/projects/{id}/</td>
+			<td>/client/{id}/</td>
 		</tr>
 		<tr>
-			<td>Ajouter un utilisateur (collaborateur) à un projet</td>
-			<td>POST</td>
-			<td>/projects/{id}/users/</td>
-		</tr>
-		<tr>
-			<td>Récupérer la liste de tous les utilisateurs (users) attachés à un projet (project)</td>
+			<td>Récupérer la liste de tous les utilisateurs du CRM</td>
 			<td>GET</td>
-			<td>/projects/{id}/users/</td>
+			<td>/users/</td>
 		</tr>
 		<tr>
-			<td>Supprimer un utilisateur d'un</td>
-			<td>DELETE</td>
-			<td>/projects/{id}/users/{id}</td>
-		</tr>
-		<tr>
-			<td>Récupérer la liste des problèmes (issues) liés à un projet (project)</td>
-			<td>GET</td>
-			<td>/projects/{id}/issues/</td>
-		</tr>
-		<tr>
-			<td>Créer un problème dans un projet</td>
+			<td>Ajouter un utilisateur au CRM</td>
 			<td>POST</td>
-			<td>/projects/{id}/issues/</td>
+			<td>/users/</td>
 		</tr>
 		<tr>
-			<td>Mettre à jour un problème dans un projet</td>
+			<td>Récupérer les détails sur un utilisateur</td>
+			<td>GET</td>
+			<td>/users/{id}</td>
+		</tr>
+		<tr>
+			<td>Actualiser les informations d'un utilisateur</td>
 			<td>PUT</td>
-			<td>/projects/{id}/issues/{id}</td>
+			<td>/users/{id}</td>
 		</tr>
 		<tr>
-			<td>Supprimer un problème d'un projet</td>
+			<td>Supprimer un utilisateur</td>
 			<td>DELETE</td>
-			<td>/projects/{id}/issues/{id}</td>
+			<td>/users/{id}</td>
 		</tr>
 		<tr>
-			<td>Créer des commentaires sur un problème</td>
+			<td>Récupérer la liste des événements</td>
+			<td>GET</td>
+			<td>/events/{id}</td>
+		</tr>
+		<tr>
+			<td>Créer un événement</td>
 			<td>POST</td>
-			<td>/projects/{id}/issues/{id}/comments/</td>
+			<td>/event/</td>
 		</tr>
 		<tr>
-			<td>Récupérer la liste de tous les commentaires liés à un problème (issue)</td>
+			<td>Récuperer lrs détails d'un événement</td>
 			<td>GET</td>
-			<td>/projects/{id}/issues/{id}/comments/</td>
+			<td>/event/{id}</td>
 		</tr>
 		<tr>
-			<td>Modifier un commentaire</td>
+			<td>Mettre à jour un événement</td>
 			<td>PUT</td>
-			<td>/projects/{id}/issues/{id}/comments/</td>
+			<td>/event/{id}</td>
 		</tr>
 		<tr>
-			<td>Supprimer un commentaire</td>
+			<td>Supprimer un événement</td>
 			<td>DELETE</td>
-			<td>/projects/{id}/issues/{id}/comments/{id}</td>
+			<td>/event/{id}/</td>
 		</tr>
 		<tr>
-			<td>Récupérer un commentaire (comment) via son id</td>
+			<td>Créer un contrat</td>
+			<td>POST</td>
+			<td>/contract/</td>
+		</tr>
+		<tr>
+			<td>Récupérer la liste des contrats</td>
 			<td>GET</td>
-			<td>/projects/{id}/issues/{id}/comments/{id}</td>
+			<td>/contract/</td>
+		</tr>
+		<tr>
+			<td>Mettre à jour un contract</td>
+			<td>PUT</td>
+			<td>/contract/{id}/</td>
+		</tr>
+		<tr>
+			<td>Supprimer un contract</td>
+			<td>DELETE</td>
+			<td>/contract/{id}/</td>
+		</tr>
+		<tr>
+			<td>Récupérer un contract via son id</td>
+			<td>GET</td>
+			<td>/contract/{id}/</td>
 		</tr>
 	</table>
 </body>
