@@ -34,7 +34,13 @@ class ClientViewset(ModelViewSet, StaffAccessPermission,
 			for event in models.Event.objects.filter(support_contact_id=self.request.user.id):
 				my_clients.append(event.client_id.id)
 			return models.Client.objects.filter(pk__in=my_clients)
-		return models.Client.objects.all()
+		elif self.request.user.groups.filter(name='team-vente').exists() == True:
+			my_clients = []
+			for client in models.Client.objects.filter(sales_contact_id=self.request.user.id):
+				my_clients.append(client.id)
+			return models.Client.objects.filter(pk__in=my_clients)
+		else:
+			return models.Client.objects.all()
 
 
 class EventViewset(ModelViewSet, StaffAccessPermission, 
@@ -47,7 +53,12 @@ class EventViewset(ModelViewSet, StaffAccessPermission,
 	def get_queryset(self):
 		if self.request.user.groups.filter(name='team-support').exists() == True:
 			return models.Event.objects.filter(support_contact_id=self.request.user.id)
-		return models.Event.objects.all()
+		elif self.request.user.groups.filter(name='team-vente').exists() == True:
+			for client in models.Client.objects.filter(sales_contact_id=self.request.user.id):
+				my_clients.append(client.id)
+			return models.Event.objects.filter(client_id__in=my_clients)
+		else:
+			return models.Event.objects.all()
 
 
 class ContractViewset(ModelViewSet, StaffAccessPermission, 
@@ -63,5 +74,8 @@ class ContractViewset(ModelViewSet, StaffAccessPermission,
 			for event in models.Event.objects.filter(support_contact_id=self.request.user.id):
 				my_events.append(event.id)
 			return models.Contract.objects.filter(event_id__in=my_events)
-		return models.Contract.objects.all()
+		elif self.request.user.groups.filter(name='team-vente').exists() == True:
+			return models.Contract.objects.filter(sales_contact_id=self.request.user.id)
+		else:
+			return models.Contract.objects.all()
 
