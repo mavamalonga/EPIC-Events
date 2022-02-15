@@ -54,6 +54,7 @@ class EventViewset(ModelViewSet, StaffAccessPermission,
 		if self.request.user.groups.filter(name='team-support').exists() == True:
 			return models.Event.objects.filter(support_contact_id=self.request.user.id)
 		elif self.request.user.groups.filter(name='team-vente').exists() == True:
+			my_clients = []
 			for client in models.Client.objects.filter(sales_contact_id=self.request.user.id):
 				my_clients.append(client.id)
 			return models.Event.objects.filter(client_id__in=my_clients)

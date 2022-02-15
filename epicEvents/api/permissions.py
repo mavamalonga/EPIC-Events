@@ -10,7 +10,7 @@ class StaffAccessPermission(BasePermission):
 
 class UserAccessPermission(BasePermission):
      message = 'Permission only to the team-gestion'
-     
+
      def has_permission(self, request, view):
         return request.user.groups.filter(name='team-gestion').exists() == True or \
             request.user.is_superuser == True
@@ -21,7 +21,6 @@ class ClientAccessPermission(BasePermission):
 
      def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
-            #Créer le filtre pour la team-gestion
             return request.user.is_staff
         else:
             return request.user.groups.filter(name='team-vente').exists() == True or \
@@ -42,7 +41,6 @@ class ContractAccessPermission(BasePermission):
 
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
-            #Créer le filtre pour la team-gestion
             return request.user.is_staff
         else:
             return request.user.groups.filter(name='team-vente').exists() == True or \
