@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from api.models import User, Client, Event, Contract
+from api.serializers import ClientSerializer, EventSerializer, ContractSerializer
 
 
 class ContractInline(admin.TabularInline):
@@ -20,27 +21,23 @@ class ClientAdmin(admin.ModelAdmin):
 
 	def get_queryset(self, request):
 		queryset = super().get_queryset(request)
-		if request.user.groups.filter(name='team-support').exists() == True:
-			my_clients = []
-			for event in Event.objects.filter(support_contact_id=request.user.id):
-				my_clients.append(event.client_id.id)
-			return Client.objects.filter(pk__in=my_clients)
-		elif request.user.groups.filter(name='team-vente').exists() == True:
-			my_clients = []
-			for client in Client.objects.filter(sales_contact_id=request.user.id):
-				my_clients.append(client.id)
-			return Client.objects.filter(pk__in=my_clients)
-		else:
-			return queryset
 
 
 @admin.register(Event)
 class EventAdmin(admin.ModelAdmin):
 	list_display = ('name', 'id', 'client_id', 'date', 'support_contact_id')
-	#inlines = (ContractInline, )
-	list_filter = ('support_contact_id', 'date')
+	list_filter = ('date', )
 	search_fields = ('name', )
+
+	def get_queryset(self, request):
+		queryset = super().get_queryset(request)
+		return queryset
+
 
 @admin.register(Contract)
 class ContractAdmin(admin.ModelAdmin):
 	list_display = ('event_id', 'id', 'client_id', 'sales_contact_id', 'payment_status')
+
+	def get_queryset(self, request):
+		queryset = super().get_queryset(request)
+		return queryset

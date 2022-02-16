@@ -31,9 +31,7 @@ class EventAccessPermission(BasePermission):
     message = 'Permission only to the staff member.'
 
     def has_permission(self, request, view):
-        if request.method in SAFE_METHODS:
-            return request.user.is_staff
-        return request.user.groups.filter(name='team-support').exists() == True 
+        return request.user.is_staff
 
 
 class ContractAccessPermission(BasePermission):

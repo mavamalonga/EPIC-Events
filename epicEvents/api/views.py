@@ -1,5 +1,7 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
 from django.shortcuts import get_object_or_404
 
 from datetime import datetime
@@ -10,73 +12,82 @@ from api.permissions import StaffAccessPermission, UserAccessPermission, \
 import psycopg2
 
 
-class UserViewset(ModelViewSet, StaffAccessPermission, 
-		UserAccessPermission):
+class UserViewset(ModelViewSet):
 
-	permission_classes = [IsAuthenticated, StaffAccessPermission, 
-		UserAccessPermission]
+	permission_classes = [IsAuthenticated, StaffAccessPermission, UserAccessPermission]
 	serializer_class = serializers.UserSerializer
 
 	def get_queryset(self):
 		return models.User.objects.all()
 
 
-class ClientViewset(ModelViewSet, StaffAccessPermission, 
-		ClientAccessPermission):
+class ClientViewset(ModelViewSet):
 
-	permission_classes = [IsAuthenticated, StaffAccessPermission, 
-		ClientAccessPermission]
+	permission_classes = [IsAuthenticated, StaffAccessPermission, ClientAccessPermission]
 	serializer_class = serializers.ClientSerializer
 
 	def get_queryset(self):
-		if self.request.user.groups.filter(name='team-support').exists() == True:
-			my_clients = []
-			for event in models.Event.objects.filter(support_contact_id=self.request.user.id):
-				my_clients.append(event.client_id.id)
-			return models.Client.objects.filter(pk__in=my_clients)
-		elif self.request.user.groups.filter(name='team-vente').exists() == True:
-			my_clients = []
-			for client in models.Client.objects.filter(sales_contact_id=self.request.user.id):
-				my_clients.append(client.id)
-			return models.Client.objects.filter(pk__in=my_clients)
+		return models.Client.objects.all()
+
+	def update(self, request, pk=None):
+		client = models.Client.objects.get(pk=pk)
+		serializer = serializers.ClientSerializer(client, data=request.data)
+		if serializer.is_valid():
+			if client.sales_contact_id.id == request.user.id:
+				serializer.save()
+				return Response(status=status.HTTP_200_OK)
+			else:
+				return Response({"detail": "Permission only to the sales contact of client."},
+					status=status.HTTP_403_FORBIDDEN)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+	def delete(self, request, pk=None):
+		client = models.Client.objects.get(pk=pk)
+		if client.sales_contact_id.id == request.user.id:
+			client.delete()
+			return Response(status=status.HTTP_200_OK)
 		else:
-			return models.Client.objects.all()
+			return Response({"detail": "Permission only to the sales contact of client."},
+				status=status.HTTP_403_FORBIDDEN)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class EventViewset(ModelViewSet, StaffAccessPermission, 
-		EventAccessPermission):
 
-	permission_classes = [IsAuthenticated, StaffAccessPermission, 
-		EventAccessPermission]
+class EventViewset(ModelViewSet):
+
+	permission_classes = [IsAuthenticated, StaffAccessPermission, EventAccessPermission]
 	serializer_class = serializers.EventSerializer
 
 	def get_queryset(self):
-		if self.request.user.groups.filter(name='team-support').exists() == True:
-			return models.Event.objects.filter(support_contact_id=self.request.user.id)
-		elif self.request.user.groups.filter(name='team-vente').exists() == True:
-			my_clients = []
-			for client in models.Client.objects.filter(sales_contact_id=self.request.user.id):
-				my_clients.append(client.id)
-			return models.Event.objects.filter(client_id__in=my_clients)
-		else:
-			return models.Event.objects.all()
+		return models.Event.objects.all()
 
 
-class ContractViewset(ModelViewSet, StaffAccessPermission, 
-		ContractAccessPermission):
+class ContractViewset(ModelViewSet):
 
-	permission_classes = [IsAuthenticated, StaffAccessPermission, 
-		ContractAccessPermission]
+	permission_classes = [IsAuthenticated, StaffAccessPermission, ContractAccessPermission]
 	serializer_class = serializers.ContractSerializer
 
 	def get_queryset(self):
-		my_events = []
-		if self.request.user.groups.filter(name='team-support').exists() == True:
-			for event in models.Event.objects.filter(support_contact_id=self.request.user.id):
-				my_events.append(event.id)
-			return models.Contract.objects.filter(event_id__in=my_events)
-		elif self.request.user.groups.filter(name='team-vente').exists() == True:
-			return models.Contract.objects.filter(sales_contact_id=self.request.user.id)
-		else:
-			return models.Contract.objects.all()
+		return models.Contract.objects.all()
 
+	def update(self, request, pk=None):
+		contract = models.Contract.objects.get(pk=pk)
+		serializer = serializers.ContractSerializerS(contract, data=request.data)
+		if serializer.is_valid():
+			if contract.sales_contact_id.id == request.user.id:
+				serializer.save()
+				return Response(status=status.HTTP_200_OK)
+			else:
+				return Response({"detail": "Permission only to the sales contact of client."},
+					status=status.HTTP_403_FORBIDDEN)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+	def delete(self, request, pk=None):
+		contract = models.Contract.objects.get(pk=pk)
+		if contract.sales_contact_id.id == request.user.id:
+			contract.delete()
+			return Response(status=status.HTTP_200_OK)
+		else:
+			return Response({"detail": "Permission only to the sales contact of client."},
+				status=status.HTTP_403_FORBIDDEN)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
