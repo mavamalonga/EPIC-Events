@@ -1,15 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from django.contrib.auth.models import Group
 from api.models import User, Client, Event, Contract
-from api.serializers import ClientSerializer, EventSerializer, ContractSerializer
-from django.shortcuts import get_object_or_404
 
 
 @admin.register(User)
-class UserAdmin(admin.ModelAdmin):
+class UserAdmin(UserAdmin):
 	list_display = ('username', 'id', 'email', 'first_name', 'last_name', 'is_staff', 'is_active')
-	list_filter = ('date_joined', )
+	list_filter = ('date_joined', 'groups')
 	search_fields = ('username', )
 
 
