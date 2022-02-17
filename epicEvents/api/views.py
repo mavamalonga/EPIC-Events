@@ -30,7 +30,7 @@ class ClientViewset(ModelViewSet):
 		return models.Client.objects.all()
 
 	def update(self, request, pk=None):
-		client = models.Client.objects.get(pk=pk)
+		client = get_object_or_404(models.Client, pk=pk)
 		serializer = serializers.ClientSerializer(client, data=request.data)
 		if serializer.is_valid():
 			if client.sales_contact_id.id == request.user.id:
@@ -42,7 +42,7 @@ class ClientViewset(ModelViewSet):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 	def delete(self, request, pk=None):
-		client = models.Client.objects.get(pk=pk)
+		client = get_object_or_404(models.Client, pk=pk)
 		if client.sales_contact_id.id == request.user.id:
 			client.delete()
 			return Response(status=status.HTTP_200_OK)
@@ -71,7 +71,7 @@ class ContractViewset(ModelViewSet):
 		return models.Contract.objects.all()
 
 	def update(self, request, pk=None):
-		contract = models.Contract.objects.get(pk=pk)
+		contract = get_object_or_404(models.Contract, pk=pk)
 		serializer = serializers.ContractSerializerS(contract, data=request.data)
 		if serializer.is_valid():
 			if contract.sales_contact_id.id == request.user.id:
@@ -83,7 +83,7 @@ class ContractViewset(ModelViewSet):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 	def delete(self, request, pk=None):
-		contract = models.Contract.objects.get(pk=pk)
+		contract = get_object_or_404(models.Contract, pk=pk)
 		if contract.sales_contact_id.id == request.user.id:
 			contract.delete()
 			return Response(status=status.HTTP_200_OK)
