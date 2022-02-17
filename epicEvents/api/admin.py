@@ -20,12 +20,17 @@ class ClientAdmin(admin.ModelAdmin):
 	search_fields = ('last_name', )
 
 	def has_change_permission(self, request, obj=None):
-		try:
-			pk = request.headers['Referer'].split('/')[6]
-			client = get_object_or_404(Client.objects.get(pk=int(pk)))
-			return client.sales_contact_id.id == request.user.id
-		except Exception as e:
+		if request.user.groups.filter(name='team-vente').exists() == True:
+			try:
+				pk = request.headers['Referer'].split('/')[6]
+				client = get_object_or_404(Client.objects.get(pk=int(pk)))
+				return client.sales_contact_id.id == request.user.id
+			except Exception as e:
+				return True
+		elif request.user.groups.filter(name='team-gestion').exists() == True:
 			return True
+		else:
+			return False
 
 
 @admin.register(Event)
