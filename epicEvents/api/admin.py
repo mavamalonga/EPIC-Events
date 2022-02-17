@@ -25,7 +25,8 @@ class ClientAdmin(admin.ModelAdmin):
 	def has_change_permission(self, request, obj=None):
 		if obj is not None:
 			try:
-				return obj.sales_contact_id.id == request.user.id
+				return obj.sales_contact_id.id == request.user.id or \
+					request.user.groups.filter(name='team-gestion').exists() == True
 			except Exception as e:
 				return super(ClientAdmin, self).has_change_permission(request, obj=obj)
 		return super(ClientAdmin, self).has_change_permission(request, obj=obj)
@@ -33,7 +34,8 @@ class ClientAdmin(admin.ModelAdmin):
 	def has_delete_permission(self, request, obj=None):
 		if obj is not None:
 			try:
-				return obj.sales_contact_id.id == request.user.id
+				return obj.sales_contact_id.id == request.user.id or \
+					request.user.groups.filter(name='team-gestion').exists() == True
 			except Exception as e:
 				return super(ClientAdmin, self).has_change_permission(request, obj=obj)
 		return super(ClientAdmin, self).has_change_permission(request, obj=obj)
@@ -51,7 +53,8 @@ class EventAdmin(admin.ModelAdmin):
 	def has_change_permission(self, request, obj=None):
 		if obj is not None:
 			try:
-				return obj.support_contact_id.id == request.user.id
+				return obj.support_contact_id.id == request.user.id or \
+					request.user.groups.filter(name='team-gestion').exists() == True
 			except Exception as e:
 				return super(EventAdmin, self).has_change_permission(request, obj=obj)
 		return super(EventAdmin, self).has_change_permission(request, obj=obj)
@@ -59,7 +62,8 @@ class EventAdmin(admin.ModelAdmin):
 	def has_delete_permission(self, request, obj=None):
 		if obj is not None:
 			try:
-				return obj.support_contact_id.id == request.user.id
+				return obj.support_contact_id.id == request.user.id or \
+					request.user.groups.filter(name='team-gestion').exists() == True
 			except Exception as e:
 				return super(EventAdmin, self).has_change_permission(request, obj=obj)
 		return super(EventAdmin, self).has_change_permission(request, obj=obj)
@@ -77,7 +81,8 @@ class ContractAdmin(admin.ModelAdmin):
 	def has_change_permission(self, request, obj=None):
 		if obj is not None:
 			try:
-				return obj.sales_contact_id.id == request.user.id
+				return obj.sales_contact_id.id == request.user.id or \
+					request.user.groups.filter(name='team-gestion').exists() == True
 			except Exception as e:
 				return super(ContractAdmin, self).has_change_permission(request, obj=obj)
 		return super(ContractAdmin, self).has_change_permission(request, obj=obj)
@@ -85,7 +90,8 @@ class ContractAdmin(admin.ModelAdmin):
 	def has_delete_permission(self, request, obj=None):
 		if obj is not None:
 			try:
-				return obj.sales_contact_id.id == request.user.id
+				return obj.sales_contact_id.id == request.user.id or \
+					request.user.groups.filter(name='team-gestion').exists() == True
 			except Exception as e:
 				return super(ContractAdmin, self).has_change_permission(request, obj=obj)
 		return super(ContractAdmin, self).has_change_permission(request, obj=obj)
