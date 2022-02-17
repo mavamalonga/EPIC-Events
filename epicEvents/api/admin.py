@@ -19,18 +19,24 @@ class ClientAdmin(admin.ModelAdmin):
 	list_filter = ('date_created', 'date_updated')
 	search_fields = ('last_name', )
 
+	def has_add_permission(self, request):
+		return super(ClientAdmin, self).has_add_permission(request)
+
 	def has_change_permission(self, request, obj=None):
-		if request.user.groups.filter(name='team-vente').exists() == True:
+		if obj is not None:
 			try:
-				pk = request.headers['Referer'].split('/')[6]
-				client = get_object_or_404(Client.objects.get(pk=int(pk)))
-				return client.sales_contact_id.id == request.user.id
+				return obj.sales_contact_id.id == request.user.id
 			except Exception as e:
-				return True
-		elif request.user.groups.filter(name='team-gestion').exists() == True:
-			return True
-		else:
-			return False
+				return super(ClientAdmin, self).has_change_permission(request, obj=obj)
+		return super(ClientAdmin, self).has_change_permission(request, obj=obj)
+
+	def has_delete_permission(self, request, obj=None):
+		if obj is not None:
+			try:
+				return obj.sales_contact_id.id == request.user.id
+			except Exception as e:
+				return super(ClientAdmin, self).has_change_permission(request, obj=obj)
+		return super(ClientAdmin, self).has_change_permission(request, obj=obj)
 
 
 @admin.register(Event)
@@ -39,10 +45,48 @@ class EventAdmin(admin.ModelAdmin):
 	list_filter = ('date', )
 	search_fields = ('name', )
 
+	def has_add_permission(self, request):
+		return super(EventAdmin, self).has_add_permission(request)
+
+	def has_change_permission(self, request, obj=None):
+		if obj is not None:
+			try:
+				return obj.support_contact_id.id == request.user.id
+			except Exception as e:
+				return super(EventAdmin, self).has_change_permission(request, obj=obj)
+		return super(EventAdmin, self).has_change_permission(request, obj=obj)
+
+	def has_delete_permission(self, request, obj=None):
+		if obj is not None:
+			try:
+				return obj.support_contact_id.id == request.user.id
+			except Exception as e:
+				return super(EventAdmin, self).has_change_permission(request, obj=obj)
+		return super(EventAdmin, self).has_change_permission(request, obj=obj)
+
 
 @admin.register(Contract)
 class ContractAdmin(admin.ModelAdmin):
 	list_display = ('event_id', 'id', 'client_id', 'sales_contact_id', 'payment_status')
 	list_filter = ('payment_status', )
 	search_fields = ('event_id', )
+
+	def has_add_permission(self, request):
+		return super(ContractAdmin, self).has_add_permission(request)
+
+	def has_change_permission(self, request, obj=None):
+		if obj is not None:
+			try:
+				return obj.sales_contact_id.id == request.user.id
+			except Exception as e:
+				return super(ContractAdmin, self).has_change_permission(request, obj=obj)
+		return super(ContractAdmin, self).has_change_permission(request, obj=obj)
+
+	def has_delete_permission(self, request, obj=None):
+		if obj is not None:
+			try:
+				return obj.sales_contact_id.id == request.user.id
+			except Exception as e:
+				return super(ContractAdmin, self).has_change_permission(request, obj=obj)
+		return super(ContractAdmin, self).has_change_permission(request, obj=obj)
 
