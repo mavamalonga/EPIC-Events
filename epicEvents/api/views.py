@@ -5,7 +5,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from datetime import datetime
 from . import models, serializers
-from api.permissions import StaffAccessPermission, UserAccessPermission, \
+from . permissions import StaffAccessPermission, UserAccessPermission, \
 	ClientAccessPermission, EventAccessPermission, ContractAccessPermission
 
 import psycopg2
@@ -28,31 +28,6 @@ class ClientViewset(ModelViewSet):
 	def get_queryset(self):
 		return models.Client.objects.all()
 
-	def update(self, request, pk=None):
-		client = get_object_or_404(models.Client, pk=pk)
-		serializer = serializers.ClientSerializer(client, data=request.data)
-		if serializer.is_valid():
-			if client.sales_contact_id.id == request.user.id or \
-				request.user.groups.filter(name='team-gestion').exists() == True:
-				serializer.save()
-				return Response(status=status.HTTP_200_OK)
-			else:
-				return Response({"detail": "Permission only to the sales contact of client."},
-					status=status.HTTP_403_FORBIDDEN)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-	def delete(self, request, pk=None):
-		client = get_object_or_404(models.Client, pk=pk)
-		if client.sales_contact_id.id == request.user.id or \
-			request.user.groups.filter(name='team-gestion').exists() == True:
-			client.delete()
-			return Response(status=status.HTTP_200_OK)
-		else:
-			return Response({"detail": "Permission only to the sales contact of client."},
-				status=status.HTTP_403_FORBIDDEN)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
 
 class EventViewset(ModelViewSet):
 
@@ -61,30 +36,6 @@ class EventViewset(ModelViewSet):
 
 	def get_queryset(self):
 		return models.Event.objects.all()
-
-	def update(self, request, pk=None):
-		event = get_object_or_404(models.Event, pk=pk)
-		serializer = serializers.ContractSerializerS(event, data=request.data)
-		if serializer.is_valid():
-			if event.support_contact_id.id == request.user.id or \
-				request.user.groups.filter(name='team-gestion').exists() == True:
-				serializer.save()
-				return Response(status=status.HTTP_200_OK)
-			else:
-				return Response({"detail": "Permission only to the sales contact of client."},
-					status=status.HTTP_403_FORBIDDEN)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-	def delete(self, request, pk=None):
-		event = get_object_or_404(models.Event, pk=pk)
-		if event.support_contact_id.id == request.user.id or \
-			request.user.groups.filter(name='team-gestion').exists() == True:
-			event.delete()
-			return Response(status=status.HTTP_200_OK)
-		else:
-			return Response({"detail": "Permission only to the sales contact of client."},
-				status=status.HTTP_403_FORBIDDEN)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ContractViewset(ModelViewSet):
@@ -95,26 +46,3 @@ class ContractViewset(ModelViewSet):
 	def get_queryset(self):
 		return models.Contract.objects.all()
 
-	def update(self, request, pk=None):
-		contract = get_object_or_404(models.Contract, pk=pk)
-		serializer = serializers.ContractSerializerS(contract, data=request.data)
-		if serializer.is_valid():
-			if contract.sales_contact_id.id == request.user.id or \
-				request.user.groups.filter(name='team-gestion').exists() == True:
-				serializer.save()
-				return Response(status=status.HTTP_200_OK)
-			else:
-				return Response({"detail": "Permission only to the sales contact of client."},
-					status=status.HTTP_403_FORBIDDEN)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-	def delete(self, request, pk=None):
-		contract = get_object_or_404(models.Contract, pk=pk)
-		if contract.sales_contact_id.id == request.user.id or \
-			request.user.groups.filter(name='team-gestion').exists() == True:
-			contract.delete()
-			return Response(status=status.HTTP_200_OK)
-		else:
-			return Response({"detail": "Permission only to the sales contact of client."},
-				status=status.HTTP_403_FORBIDDEN)
-		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

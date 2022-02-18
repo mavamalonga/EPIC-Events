@@ -9,40 +9,57 @@ class StaffAccessPermission(BasePermission):
 
 
 class UserAccessPermission(BasePermission):
-     message = 'Permission only to the team-gestion'
+     message = 'Permission only to the gestion contact'
 
      def has_permission(self, request, view):
-        return request.user.groups.filter(name='team-gestion').exists() == True or \
-            request.user.is_superuser == True
+        if request.method in SAFE_METHODS:
+            return request.user.is_staff
+        return request.user.groups.filter(name='team-gestion').exists() == True
 
 
 class ClientAccessPermission(BasePermission):
-     message = 'Request not allowed.'
+    message = 'Permission only to the sales contact'
 
-     def has_permission(self, request, view):
+    def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return request.user.is_staff
-        else:
-            return request.user.groups.filter(name='team-vente').exists() == True or \
-                request.user.groups.filter(name='team-gestion').exists() == True 
+        return request.user.groups.filter(name='team-vente').exists() == True
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in SAFE_METHODS:
+            return request.user.is_staff
+        return obj.sales_contact_id.id == request.user.id or \
+            request.user.groups.filter(name='team-gestion').exists() == True
 
 
 class EventAccessPermission(BasePermission):
-    message = 'Permission only to the staff member.'
-
-    def has_permission(self, request, view):
-        return request.user.is_staff
-
-
-class ContractAccessPermission(BasePermission):
-    message = 'Request not allowed.'
+    message = 'Permission only to project managers'
 
     def has_permission(self, request, view):
         if request.method in SAFE_METHODS:
             return request.user.is_staff
-        else:
-            return request.user.groups.filter(name='team-vente').exists() == True or \
-                    request.user.groups.filter(name='team-gestion').exists() == True 
+        return request.user.groups.filter(name='team-vente').exists() == True
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in SAFE_METHODS:
+            return request.user.is_staff
+        return obj.support_contact_id.id == request.user.id or \
+            request.user.groups.filter(name='team-gestion').exists() == True
+
+
+class ContractAccessPermission(BasePermission):
+    message = 'Permission only to the sales contact'
+
+    def has_permission(self, request, view):
+        if request.method in SAFE_METHODS:
+            return request.user.is_staff
+        return request.user.groups.filter(name='team-vente').exists() == True
+
+    def has_object_permission(self, request, view, obj):
+        if request.method in SAFE_METHODS:
+            return request.user.is_staff
+        return obj.sales_contact_id.id == request.user.id or \
+            request.user.groups.filter(name='team-gestion').exists() == True
 
 
 
